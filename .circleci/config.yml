@@ -32,7 +32,6 @@ jobs:
           name: 🐍 Python Unit Tests
           command: |
             . venv/bin/activate
-            pytest
             npm run test
 
   build-medium-arm64:
