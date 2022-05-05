@@ -16,7 +16,7 @@ jobs:
             sudo apt-get update && sudo apt-get -y install python3 python3-pip 
             python3 -m pip install --upgrade pip
             python3 -m venv venv && . venv/bin/activate
-            pip install -e .[ci,dev,testing,celery,diskcache] --no-cache-dir --progress-bar off
+            pip install -e .[ci,dev,testing,celery,diskcache]
       - run:
           name: 🌸 Python
           command: |
