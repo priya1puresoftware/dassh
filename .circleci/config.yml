@@ -19,12 +19,11 @@ jobs:
             pip install -e .[ci,dev,testing,celery,diskcache] 
             pip3 install webdriver-manager
             pip3 install get-gecko-driver
-            pip3 install geckodriver-autoinstaller
-            wget https://github.com/mozilla/geckodriver/releases/download/v0.23.0/geckodriver-v0.23.0-linux64.tar.gz
-            sudo sh -c 'tar -x geckodriver -zf geckodriver-v0.23.0-linux64.tar.gz -O > /usr/bin/geckodriver'
-            wget https://chromedriver.storage.googleapis.com/2.29/chromedriver_linux64.zip
-            unzip chromedriver_linux64.zip
-            sudo chmod +x chromedriver
+            pip3 install geckodriver-autoinstaller      
+            sudo apt-get install libxss1 libappindicator1 libindicator7
+            wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+            sudo dpkg -i ./google-chrome*.deb
+            sudo apt-get install -f
       - run:
           name: 🌸 Python
           command: |
