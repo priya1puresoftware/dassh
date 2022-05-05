@@ -32,11 +32,9 @@ jobs:
             npm run citest.unit
 
 
-  
-
 workflows:
   version: 2
-  python3.9:
+  python3.8:
     jobs:
       - build-medium-arm64
 
