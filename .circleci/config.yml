@@ -28,7 +28,6 @@ jobs:
             pip3 install selenium
             pip3 install get-gecko-driver
             pip3 install geckodriver-autoinstaller
-            geckodriver --version
             pip3 install -e . --no-cache-dir -r requires-install.txt -r requires-dev.txt -r requires-testing.txt --progress-bar off
             set -eo pipefail
             cd dash/dash-renderer && renderer build && cd ../../
