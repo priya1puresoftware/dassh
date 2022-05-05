@@ -10,9 +10,6 @@ jobs:
     steps:
       
       - checkout
-      - browser-tools/install-browser-tools:
-          install-firefox: false
-          install-geckodriver: false
       - run:
           name: ️️🏗️ pip dev requirements
           command: |
