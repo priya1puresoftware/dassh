@@ -31,7 +31,8 @@ jobs:
           name: 🐍 Python Unit Tests
           command: |
             . venv/bin/activate
-            npm run citest.unit
+            pytest
+            npm run test
 
   build-medium-arm64:
     machine:
