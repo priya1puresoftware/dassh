@@ -10,18 +10,11 @@ jobs:
     working_directory: ~/dash
     steps:
       - checkout
-      - run: echo $PYVERSION > ver.txt
-      - run: cat requires-*.txt > requires-all.txt
-      - restore_cache:
-          key: dep-{{ checksum ".circleci/config.yml" }}-{{ checksum "ver.txt" }}-{{ checksum "requires-all.txt" }}
-      - browser-tools/install-browser-tools
-      - run:
           name: ️️🏗️ pip dev requirements
           command: |
             sudo apt-get update && sudo apt-get -y install python3 python3-pip 
             pip3 install --upgrade pip
             python3 -m venv venv && . venv/bin/activate
-            pip3 install --upgrade pip wheel
             pip3 install -e .[ci,dev,testing] --no-cache-dir --progress-bar off
       - run:
           name: 🌸 Python
