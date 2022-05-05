@@ -15,67 +15,20 @@ jobs:
       - run:
           name: ️️🏗️ pip dev requirements
           command: |
-            uname -m
-            sudo apt-get install python3 && sudo apt-get install python3-pip
-            python3 --version
-            pip3 install --upgrade virtualenv --progress-bar off
-            python3 -m venv venv || virtualenv venv && . venv/bin/activate
-            python3 -m pip install --upgrade pip
-            ls
-            pwd
-            git clone https://github.com/plotly/dash
-            cd dash
-            pip3 install selenium
-            pip3 install get-gecko-driver
-            pip3 install geckodriver-autoinstaller
-            pip3 install -e . --no-cache-dir -r requires-install.txt -r requires-dev.txt -r requires-testing.txt --progress-bar off
-            set -eo pipefail
-            cd dash/dash-renderer && renderer build && cd ../../
-            pip3 install -e . --progress-bar off && pip3 list | grep dash
-            npm install --production && npm run initialize
-            npm run lint
-            npm run citest.unit    
-
-
-      
-  lint-unit-39: &lint-unit
-    working_directory: ~/dash
-    docker:
-      - image: circleci/python:3.9.2-buster-node-browsers
-        auth:
-          username: dashautomation
-          password: $DASH_PAT_DOCKERHUB
-        environment:
-          PYLINTRC: .pylintrc39
-          PYVERSION: python39
-
-    steps:
-      - checkout
-      - run: echo $PYVERSION > ver.txt
-      - restore_cache:
-          key: dep-{{ checksum ".circleci/config.yml" }}-{{ checksum "ver.txt" }}-{{ checksum "requires-dev.txt" }}-{{ checksum "requires-install.txt" }}-{{ checksum "requires-testing.txt" }}
+            python -m venv venv && . venv/bin/activate
+            pip install --upgrade pip wheel
+            pip install -e .[ci,dev,testing] --no-cache-dir --progress-bar off
       - run:
-          name: ️️🏗️ pip dev requirements
-          command: |
-            uname -m
-            sudo pip install --upgrade virtualenv --progress-bar off
-            python -m venv venv || virtualenv venv && . venv/bin/activate
-            pip install -e . --no-cache-dir -r requires-install.txt -r requires-dev.txt -r requires-testing.txt --progress-bar off
-      - save_cache:
-          key: dep-{{ checksum ".circleci/config.yml" }}-{{ checksum "ver.txt" }}-{{ checksum "requires-dev.txt" }}-{{ checksum "requires-install.txt" }}-{{ checksum "requires-testing.txt" }}
-          paths:
-            - venv
-      - run:
-          name: 🌸 Python & JS Lint
+          name: 🌸 Python
           command: |
             . venv/bin/activate
             set -eo pipefail
-            cd dash/dash-renderer && renderer build && cd ../../
             pip install -e . --progress-bar off && pip list | grep dash
-            npm install --production && npm run initialize
+            npm ci npm run initialize
+            npm run build.sequential
             npm run lint
       - run:
-          name: 🐍 Python Unit Tests & ☕ JS Unit Tests
+          name: 🐍 Python Unit Tests
           command: |
             . venv/bin/activate
             npm run citest.unit
@@ -88,6 +41,5 @@ workflows:
   python3.9:
     jobs:
       - build-medium-arm64
-      - lint-unit-39
 
  
