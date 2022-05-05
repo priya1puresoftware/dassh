@@ -21,6 +21,8 @@ jobs:
             python3 -m venv venv && . venv/bin/activate
             pip install dash-package/dash-package.tar.gz[ci,dev,testing,celery,diskcache] --progress-bar off
             pip install webdriver-manager
+            pip3 install get-gecko-driver
+            pip3 install geckodriver-autoinstaller
       - run:
           name: 🌸 Python
           command: |
