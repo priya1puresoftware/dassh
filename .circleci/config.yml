@@ -33,6 +33,10 @@ jobs:
             . venv/bin/activate
             set -eo pipefail
             pip3 install -e . --progress-bar off && pip list | grep dash
+            npm ci 
+            npm run build
+            dash-update-components "dash-core-components"
+            npm run setup-tests.py
       - run:
           name: 🐍 Python Unit Tests
           command: |
